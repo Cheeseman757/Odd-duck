@@ -8,24 +8,24 @@ function Product(name, imagePath) {
 
 Product.allProducts = [];
 
-new Product('Duck Bag', 'r2bag.jpg');
-new Product('Duck Banana', 'ybanana.jpg');
-new Product('Duck Bathroom', 'bathroomstand.jpg'); 
-new Product('Duck Boots', 'yboots.jpg');
-new Product('Duck Breakfast', 'breakfast.jpg');
-new Product('Duck Bubblegum', 'bubblegum.jpg');
-new Product('Duck Chair', 'rchair.jpg');
-new Product('Duck Cthulhu', 'cthulhu.jpg');
-new Product('Duck Dragon', 'dragon.jpg');
-new Product('Duck Pen', 'pen.jpg');
-new Product('Duck Pet Sweep', 'pet-sweep.jpg');
-new Product('Duck Scissors', 'scissors.jpg');
-new Product('Duck Shark', 'shark.jpg');
-new Product('Duck Sweep', 'sweep.png');
-new Product('Duck Tauntaun', 'tauntaun.jpg');
-new Product('Duck Unicorn', 'unicorn.jpg');
-new Product('Duck Water Can', 'watercan.jpg');
-new Product('Duck Wine Glass', 'wine-glass.jpg');
+new Product('Duck Bag', 'img/r2bag.jpg');
+new Product('Duck Banana', 'img/ybanana.jpg');
+new Product('Duck Bathroom', 'img/bathroomstand.jpg'); 
+new Product('Duck Boots', 'img/yboots.jpg');
+new Product('Duck Breakfast', 'img/breakfast.jpg');
+new Product('Duck Bubblegum', 'img/bubblegum.jpg');
+new Product('Duck Chair', 'img/rchair.jpg');
+new Product('Duck Cthulhu', 'img/cthulhu.jpg');
+new Product('Duck Dragon', 'img/dragon.jpg');
+new Product('Duck Pen', 'img/pen.jpg');
+new Product('Duck Pet Sweep', 'img/pet-sweep.jpg');
+new Product('Duck Scissors', 'img/scissors.jpg');
+new Product('Duck Shark', 'img/shark.jpg');
+new Product('Duck Sweep', 'img/sweep.png');
+new Product('Duck Tauntaun', 'img/tauntaun.jpg');
+new Product('Duck Unicorn', 'img/unicorn.jpg');
+new Product('Duck Water Can', 'img/watercan.jpg');
+new Product('Duck Wine Glass', 'img/wine-glass.jpg');
 
 function generateRandomProducts() {
   const uniqueProducts = [];
