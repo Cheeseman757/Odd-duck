@@ -136,3 +136,38 @@ initialProducts.forEach(product => {
   imgElement.addEventListener('click', () => handleProductSelection(product));
   document.getElementById('product-container').appendChild(imgElement);
 });
+
+function saveToLocalStorage() {
+  const productsJSON = JSON.stringify(Product.allProducts);
+  localStorage.setItem('products', productsJSON);
+}
+
+
+function loadFromLocalStorage() {
+  const productsJSON = localStorage.getItem('products');
+  if (productsJSON) {
+    const productsArray = JSON.parse(productsJSON);
+    Product.allProducts = productsArray.map(productData => {
+      const product = new Product(productData.name, productData.imagePath);
+      product.timesShown = productData.timesShown;
+      product.timesClicked = productData.timesClicked;
+      return product;
+    });
+  }
+}
+
+function updateProductStats(product) {
+  product.timesShown++;
+  product.timesClicked++;
+  saveToLocalStorage();
+}
+
+loadFromLocalStorage(); // Load products from local storage if available
+if (Product.allProducts.length === 0) {
+  new Product('Duck Bag', 'r2bag.jpg');
+}
+
+
+
+
+
