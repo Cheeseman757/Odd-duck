@@ -1,89 +1,138 @@
-'use strict';
-
-console.log('I am loaded!!');
-
-let ducks = [];
-let image1 = document.getElementById('image1');
-let image2 = document.getElementById('image2');
-
-// constructor function -> 'this' is the object we are creating.
-function Duck(url, name) {
-  this.url = url;
+function Product(name, imagePath) {
   this.name = name;
-  this.clicks = 1;
+  this.imagePath = imagePath;
+  this.timesShown = 0;
+  this.timesClicked = 0;
+  Product.allProducts.push(this);
 }
 
-let odd1 = new Duck('img/bag.jpg', 'bag');
-let odd2 = new Duck('img/banana.jpg', 'banana');
-let odd3 = new Duck('img/boots.jpg', 'boots');
-let odd4 = new Duck('img/breakfast.jpg', 'Breakfast');
-let odd5 = new Duck('img/bubblegum.jpg', 'gum');
-let odd6 = new Duck('img/cthulhu.jpg', 'green vampire');
-let odd7 = new Duck('img/dog-duck.jpg', 'duck-dog');
-let odd8 = new Duck('img/dragon.jpg', 'dragon');
-let odd9 = new Duck('img/pen.jpg', 'pen');
-let odd10 = new Duck('img/pet-sweep.jpeg', 'pet');
-let odd11 = new Duck('img/scissors.jpg', 'pizza scissors');
-let odd12 = new Duck('img/shark.jpg', 'shark');
-let odd13 = new Duck('img/sweep.png', 'sweep');
-let odd14 = new Duck('img/tauntaun.jpg', 'taun');
-let odd15 = new Duck('img/unicorn.jpg', 'uni');
-let odd16 = new Duck('water-can.jpg', 'watercan');
-let odd17 = new Duck('wine-glass.jpg', 'wine');
+Product.allProducts = [];
 
-ducks.push(odd1, odd2, odd3, odd4, odd5, odd6, odd7, odd8, odd9, odd10,
-     odd11, odd12, odd12, odd13, odd14, odd15, odd16, odd17);
+new Product('Duck Bag', 'r2bag.jpg');
+new Product('Duck Banana', 'ybanana.jpg');
+new Product('Duck Bathroom', 'bathroomstand.jpg'); 
+new Product('Duck Boots', 'yboots.jpg');
+new Product('Duck Breakfast', 'breakfast.jpg');
+new Product('Duck Bubblegum', 'bubblegum.jpg');
+new Product('Duck Chair', 'rchair.jpg');
+new Product('Duck Cthulhu', 'cthulhu.jpg');
+new Product('Duck Dragon', 'dragon.jpg');
+new Product('Duck Pen', 'pen.jpg');
+new Product('Duck Pet Sweep', 'pet-sweep.jpg');
+new Product('Duck Scissors', 'scissors.jpg');
+new Product('Duck Shark', 'shark.jpg');
+new Product('Duck Sweep', 'sweep.png');
+new Product('Duck Tauntaun', 'tauntaun.jpg');
+new Product('Duck Unicorn', 'unicorn.jpg');
+new Product('Duck Water Can', 'watercan.jpg');
+new Product('Duck Wine Glass', 'wine-glass.jpg');
 
-// render the goat onto the page / add the name
-image1.setAttribute('src', odd1.url);
-image2.setAttribute('src', odd2.url);
-image3.setAttribute('src', odd3.url);
-
-console.log(ducks);
-
-
-// add an event listener that runs some code when a goat picture is clicked.
-let oddImages = document.getElementById('odd');
-
-// when might you remove the event listener from the OddImages HTML element
-// oddImages.removeEventListener()
-
-oddImages.addEventListener('click', function(event) {
-  event.preventDefault();
-  console.log(event.target.alt); // event.target -> whatever element was interacted with.
-
-  // add 1 to number of clicks
-    // search our array of ducks for the goat object that matched the alt
-  findGoat(event.target.alt);
-
-  // show 2 different images after a picture is clicked.
-  renderNewDucks();
-});
-
-function findGoat(alt) {
-  for (let i =0; i< ducks.length; i++) {
-    if (ducks[i].name === alt) {
-      ducks[i].clicks++;
+function generateRandomProducts() {
+  const uniqueProducts = [];
+  while (uniqueProducts.length < 3) {
+    const randomIndex = Math.floor(Math.random() * Product.allProducts.length);
+    const randomProduct = Product.allProducts[randomIndex];
+    if (!uniqueProducts.includes(randomProduct)) {
+      uniqueProducts.push(randomProduct);
     }
   }
-  console.log(ducks);
+  return uniqueProducts;
 }
 
-function renderNewDucks() {
-  // generate a random index betwee 0 and the length of our ducks array
-  let index1 = Math.floor(Math.random() * ducks.length);
-  let index2 = Math.floor(Math.random() * ducks.length);
-  while(index1 === index2) {
-    index1 = Math.floor(Math.random() * ducks.length);
-    index2 = Math.floor(Math.random() * ducks.length);
+function updateProductStats(product) {
+  product.timesShown++;
+  product.timesClicked++;
+}
+
+function handleProductSelection(selectedProduct) {
+  
+  updateProductStats(selectedProduct);
+
+  
+  const productContainer = document.getElementById('product-container');
+  productContainer.innerHTML = '';
+
+  const newProducts = generateRandomProducts();
+  newProducts.forEach(product => {
+    const imgElement = document.createElement('img');
+    imgElement.src = product.imagePath;
+    imgElement.alt = product.name;
+    imgElement.addEventListener('click', () => handleProductSelection(product));
+    productContainer.appendChild(imgElement);
+  });
+
+  // Increment current round
+  currentRound++;
+
+  // Show results if all rounds completed
+  if (currentRound > totalRounds) {
+    document.getElementById('view-results').style.display = 'block';
   }
-  let randomGoat1 = ducks[index1];
-  let randomGoat2 = ducks[index2];
-  console.log(randomGoat1, randomGoat2);
-
-  // render the goat onto the page / add the name
-  image1.setAttribute('src', randomGoat1.url);
-  image2.setAttribute('src', randomGoat2.url);
-  image1.setAttribute('alt', randomGoat1.name);
-  image2.setAttribute('alt', randomGoat2.name);
 }
+
+document.getElementById('view-results').addEventListener('click', displayResults);
+
+
+function displayResults() {
+  const resultsContainer = document.getElementById('results-container');
+  resultsContainer.innerHTML = '';
+
+  const productNames = Product.allProducts.map(product => product.name);
+  const votes = Product.allProducts.map(product => product.timesClicked);
+  const views = Product.allProducts.map(product => product.timesShown)
+
+ 
+  const ctx = document.createElement('canvas');
+  ctx.id = 'results-chart'; // Add an ID to the canvas for later reference
+  resultsContainer.appendChild(ctx);
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: 'Votes',
+        data: votes,
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Viewed',
+        data: views,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  
+  document.getElementById('product-container').style.display = 'none';
+  document.getElementById('view-results').style.display = 'none';
+  resultsContainer.style.display = 'block';
+}
+
+// Total rounds for the voting
+const totalRounds = 25;
+// Current round counter
+let currentRound = 1;
+
+// Initial products for the first round
+const initialProducts = generateRandomProducts();
+// Display initial products
+initialProducts.forEach(product => {
+  const imgElement = document.createElement('img');
+  imgElement.src = product.imagePath;
+  imgElement.alt = product.name;
+  imgElement.addEventListener('click', () => handleProductSelection(product));
+  document.getElementById('product-container').appendChild(imgElement);
+});
