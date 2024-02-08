@@ -121,14 +121,10 @@ function displayResults() {
   resultsContainer.style.display = 'block';
 }
 
-// Total rounds for the voting
 const totalRounds = 25;
-// Current round counter
 let currentRound = 1;
 
-// Initial products for the first round
 const initialProducts = generateRandomProducts();
-// Display initial products
 initialProducts.forEach(product => {
   const imgElement = document.createElement('img');
   imgElement.src = product.imagePath;
