@@ -121,8 +121,17 @@ function displayResults() {
   resultsContainer.style.display = 'block';
 }
 
+
+
+
+
 const totalRounds = 25;
 let currentRound = 1;
+
+
+
+
+
 
 const initialProducts = generateRandomProducts();
 initialProducts.forEach(product => {
