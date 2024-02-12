@@ -1,3 +1,10 @@
+
+
+let votingRounds = 25;
+let productIndexArray = [];
+
+
+
 function Product(name, imagePath) {
   this.name = name;
   this.imagePath = imagePath;
